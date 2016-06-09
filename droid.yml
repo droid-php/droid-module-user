@@ -1,0 +1,47 @@
+project:
+    name: "droid/user"
+    description: "Create Unix user accounts and enable SSH key authentication"
+
+tasks:
+
+    - name: "Add a user"
+      with_items: mod_droid_user_users
+      "user:create":
+          username: "{{ item.username }}"
+
+    - name: "Create .ssh dir"
+      with_items: mod_droid_user_users
+      "fs:mkdir":
+          directory: "{{ item.homedir }}/.ssh"
+          mode: 0750
+
+    - name: "Set .ssh dir owner"
+      with_items: mod_droid_user_users
+      "fs:chown":
+          file: "{{ item.homedir }}/.ssh"
+          user: "{{ item.username }}"
+          group: "{{ item.username }}"
+
+    - name: "Create authorized_keys file"
+      with_items: mod_droid_user_users
+      "fs:touch":
+          file: "{{ item.homedir }}/.ssh/authorized_keys"
+
+    - name: "Set authorized_keys file mode"
+      with_items: mod_droid_user_users
+      "fs:chmod":
+          filename: "{{ item.homedir }}/.ssh/authorized_keys"
+          mode: 0640
+
+    - name: "Set authorized_keys file owner"
+      with_items: mod_droid_user_users
+      "fs:chown":
+          file: "{{ item.homedir }}/.ssh/authorized_keys"
+          user: "{{ item.username }}"
+          group: "{{ item.username }}"
+
+    - name: "Enable key auth"
+      with_items: mod_droid_user_users
+      "user:enable-key-auth":
+          homedir: "{{ item.homedir }}"
+          pubkey: "{{ item.pubkey }}"
