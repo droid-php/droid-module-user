@@ -13,7 +13,7 @@ tasks:
       with_items: mod_droid_user_users
       "fs:mkdir":
           directory: "{{ item.homedir }}/.ssh"
-          mode: 0750
+          mode: "0750"
 
     - name: "Set .ssh dir owner"
       with_items: mod_droid_user_users
@@ -31,7 +31,7 @@ tasks:
       with_items: mod_droid_user_users
       "fs:chmod":
           filename: "{{ item.homedir }}/.ssh/authorized_keys"
-          mode: 0640
+          mode: "0640"
 
     - name: "Set authorized_keys file owner"
       with_items: mod_droid_user_users
