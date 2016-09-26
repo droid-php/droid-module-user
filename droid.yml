@@ -6,17 +6,20 @@ tasks:
 
     - name: "Add a user"
       with_items: mod_droid_user_users
+      sudo: true
       "user:create":
           username: "{{ item.username }}"
 
     - name: "Create .ssh dir"
       with_items: mod_droid_user_users
+      sudo: true
       "fs:mkdir":
           directory: "{{ item.homedir }}/.ssh"
           mode: "0750"
 
     - name: "Set .ssh dir owner"
       with_items: mod_droid_user_users
+      sudo: true
       "fs:chown":
           file: "{{ item.homedir }}/.ssh"
           user: "{{ item.username }}"
@@ -24,17 +27,20 @@ tasks:
 
     - name: "Create authorized_keys file"
       with_items: mod_droid_user_users
+      sudo: true
       "fs:touch":
           file: "{{ item.homedir }}/.ssh/authorized_keys"
 
     - name: "Set authorized_keys file mode"
       with_items: mod_droid_user_users
+      sudo: true
       "fs:chmod":
           filename: "{{ item.homedir }}/.ssh/authorized_keys"
           mode: "0640"
 
     - name: "Set authorized_keys file owner"
       with_items: mod_droid_user_users
+      sudo: true
       "fs:chown":
           file: "{{ item.homedir }}/.ssh/authorized_keys"
           user: "{{ item.username }}"
@@ -42,6 +48,7 @@ tasks:
 
     - name: "Enable key auth"
       with_items: mod_droid_user_users
+      sudo: true
       "user:enable-key-auth":
           homedir: "{{ item.homedir }}"
           pubkey: "{{ item.pubkey }}"
