@@ -1,4 +1,4 @@
-# Droid Module: droid/user
+# Droid Module: user
 
 Create Unix user accounts and enable SSH key authentication. For more
 information on Droid, please see [droidphp.com](http://droidphp.com).
