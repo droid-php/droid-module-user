@@ -1,5 +1,8 @@
 description: "Create Unix user accounts and enable SSH key authentication"
 
+variables:
+    use_legacy_templating: true
+
 tasks:
 
     - name: "Add a user"
